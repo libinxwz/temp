@@ -33,7 +33,7 @@ let s=55;
 var count=0;
 let isAnswer=false;
 var i=0;
-let proIp="127.0.0.1:8888";
+let proIp="xmdlkvka:d4onbzno@121.236.103.49:14129";
 let isGetDL=false;
 var xunghuan=0;
 var time=40
@@ -42,7 +42,7 @@ var QuestionAll=[{id:193,question:"下列不应投放到红色垃圾桶的是（
 
 
 
-let nick="";
+let nick="oYv_F5UQXurLuTK4jnpGRIXItI58";
 let nickList=[
 	"oYv_F5WYayOr173-x0R-6ssxMZrA",//ren 18068603568
 	"oYv_F5Xq0DsbEh4E8n70AsvpA0IA",//leebear 18651306657 
@@ -58,20 +58,22 @@ let nickList=[
 	for(var aa=0;aa<nickList.length;aa++){
 		nick=nickList[aa];
 		time=40+Math.floor(Math.random()*5);
-		console.log("----第"+(aa+1)+"个账号开始------")
+	    console.log("----第"+(aa+1)+"个账号开始------")
 		console.log("答题"+time+"秒")
 		//await getQuestion();	
 		//await $.wait(10000);
 		//await answerQuestion();
-
+		await getUserInfo();
+		await $.wait(3000);
 		await getQuestion2();
+		await $.wait(time*1000-1000);
 		if($.question!=null){
-			await $.wait(time*1000-1000);
+			console.log("提交答案")
 			await answerQuestion2();
 		}else{
-			await $.wait(10000);
 			console.log("获取题目失败或者机会用完,结束")
 		}
+		await $.wait(2000);
 		console.log("----第"+(aa+1)+"个账号结束------")
 	}
 
@@ -250,6 +252,70 @@ async function choujiang(){//抽奖
       }
     })
   })
+}
+
+
+function getUserInfo(){
+
+	var data={
+			"jsonrpc":"2.0",
+			"method":"/dm/front/prod/activity/load",
+			"params":{
+				"admJson":{
+					"pushWay":"wechat",
+					"actId":"laijifenlei",
+					"userId":"446338500",
+					"buyerNick":nick,
+					"method":"/dm/front/prod/activity/load"
+				},
+				"commonParameter":{
+					"appkey":"21699045",
+					"m":"POST",
+					"sign":"4e1620ffa1b26d9900047d23b8eaf10f",
+					"timestamp":new Date().getTime(),
+					"pushWay":"wechat"
+				}
+			}
+		}
+
+	var options = {
+	  'method': 'POST',
+	  'url': 'https://wx-api.nbycgj.com/dm/front/prod/activity/load?mix_nick='+nick,
+	  //'proxy': 'http://'+proIp, // 格式为：http://username:password@hotname:port
+	  'headers': {
+		'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+		'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+		'Connection': 'keep-alive',
+		'Content-Type': 'application/json',
+		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.70'
+	  },
+	  "timeout": 2000,
+	  json: true,
+	  strictSSL: false,
+	  'body':data
+	};
+	try{
+		request(options, function (error, response) {
+			if (error) {
+				//异常重新获取代理
+				 //console.log(response.body)
+			} else {
+			 //console.log(response.body)
+			 if(response.body.data.status==200){
+				$.maxScore=response.body.data.data.missionCustomer.preBestScore;
+				
+				console.log(nick);
+				console.log("获取成功")
+			 }else{
+				 $.question=null;
+				 console.log("获取失败")
+			 }
+
+			}
+		});
+	}catch(e){
+		console.log(e);
+	}
 }
 
 function getQuestion(){
