@@ -65,11 +65,12 @@ let nickList=[
 		//await answerQuestion();
 
 		await getQuestion2();
-		await $.wait(time*1000-1000);
-		if($.question.status=200){
+		if($.question!=null){
+			await $.wait(time*1000-1000);
 			await answerQuestion2();
 		}else{
-			console.log("获取题目失败或者机会用完")
+			await $.wait(10000);
+			console.log("获取题目失败或者机会用完,结束")
 		}
 	}
 
@@ -296,8 +297,13 @@ function getQuestion(){
 				
 			} else {
 			 console.log(response.body)
-			  $.question=response.body.data.data;
-			  console.log("获取题目成功")
+			 if(response.body.data.status==200){
+				$.question=response.body.data.data;
+				console.log("获取题目成功")
+			 }else{
+				 $.question=null;
+				 console.log("答题次数用完")
+			 }
 
 			}
 		});
@@ -353,8 +359,14 @@ function getQuestion2(){
 				
 			} else {
 			 console.log(response.body)
-			  $.question=response.body.data.data;
-			  console.log("获取题目成功")
+			 if(response.body.data.status==200){
+				$.question=response.body.data.data;
+				console.log("获取题目成功")
+			 }else{
+				 $.question=null;
+				 console.log("答题次数用完")
+			 }
+
 
 			}
 		});
