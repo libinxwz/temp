@@ -58,7 +58,7 @@ let nickList=[
 	for(var aa=0;aa<nickList.length;aa++){
 		nick=nickList[aa];
 		time=40+Math.floor(Math.random()*5);
-
+		console.log("----第"+(aa+1)+"个账号开始------")
 		console.log("答题"+time+"秒")
 		//await getQuestion();	
 		//await $.wait(10000);
@@ -72,6 +72,7 @@ let nickList=[
 			await $.wait(10000);
 			console.log("获取题目失败或者机会用完,结束")
 		}
+		console.log("----第"+(aa+1)+"个账号结束------")
 	}
 
 	
