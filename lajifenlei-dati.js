@@ -1,7 +1,7 @@
 /*
 云南活动
  */
-const $ = new Env('云南');
+const $ = new Env('分类');
 // index.js
 const fs = require('fs');
 var request = require('request')
