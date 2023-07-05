@@ -65,8 +65,8 @@ let nickList=[
 		//await answerQuestion();
 
 		await getQuestion2();
+		await $.wait(time*1000-1000);
 		if($.question.status=200){
-			await $.wait(time*1000-1000);
 			await answerQuestion2();
 		}else{
 			console.log("获取题目失败或者机会用完")
